@@ -25,7 +25,6 @@ const cartSlice = createSlice({
           return product.id === action.payload.id ? find : product;
         });
       }
-
       state.quantity += 1;
       state.total += action.payload.price;
     },
