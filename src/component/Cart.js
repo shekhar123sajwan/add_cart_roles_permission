@@ -6,12 +6,12 @@ import {
   increaseProductQuantity,
 } from "../utils/cartSlice";
 
-const Cart = () => {
+const Cart = ({ cartFor = "checkout" }) => {
   const cartStore = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
   return (
-    <div className="cart-wrapper">
+    <div className="cart-wrapper" id={`cartFor_${cartFor}`}>
       {cartStore.products?.map((item) => (
         <div
           key={item.id}
@@ -59,11 +59,11 @@ const Cart = () => {
             style={{ position: "absolute", right: "0" }}
             onClick={() => dispatch(removeProduct(item))}
           >
-            Remove
+            X
           </button>
         </div>
       ))}
-      {cartStore.products?.length > 0 && (
+      {cartFor === "checkout" && cartStore.products?.length > 0 && (
         <div className="d-flex justify-content-between align-items-center">
           <h6>Total Price: ${parseFloat(cartStore.total).toFixed(2)}</h6>
           <h6>Total Quantity: {cartStore.quantity}</h6>

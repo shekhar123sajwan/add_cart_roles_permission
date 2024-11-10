@@ -1,0 +1,10 @@
+.nav-item.cart {
+  position: relative;
+}
+.cart-menu-nav {
+  position: absolute;
+  z-index: 9;
+  background: lightgoldenrodyellow;
+  translate: -75% -2%;
+  width: 300px;
+}

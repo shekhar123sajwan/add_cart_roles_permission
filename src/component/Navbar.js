@@ -1,8 +1,30 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import NavbarProfileIcons from "./NavbarProfileIcons";
+import Cart from "./Cart";
 
 const Navbar = () => {
+  const [isCartVisible, setIsCartVisible] = useState(false);
+  const cartRef = useRef(null);
+
+  // Show cart items on hover
+  const handleMouseEnter = () => {
+    setIsCartVisible(true);
+  };
+  useEffect(() => {
+    const handleClickOutsideCart = (event) => {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setIsCartVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutsideCart);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideCart);
+    };
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -35,6 +57,20 @@ const Navbar = () => {
             <Link className="nav-link" to={"/products"}>
               Products
             </Link>
+          </li>
+          <li className="nav-item cart">
+            <button
+              className="nav-link"
+              to={"/cart"}
+              onClick={handleMouseEnter}
+            >
+              Cart
+            </button>
+            {isCartVisible && (
+              <div className="cart-menu-nav" ref={cartRef}>
+                <Cart cartFor="navbar" />
+              </div>
+            )}
           </li>
           <NavbarProfileIcons />
         </ul>
