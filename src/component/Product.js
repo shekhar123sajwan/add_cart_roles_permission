@@ -6,7 +6,6 @@ const Product = ({ product }) => {
   const dispatch = useDispatch();
   const handleAddCart = (product) => {
     dispatch(addProduct(product));
-    console.log("add to cart", product);
   };
   return (
     <div className="col-lg-4 col-md-6 col-xs-12">

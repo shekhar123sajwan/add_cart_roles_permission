@@ -1,20 +1,18 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../component/Header";
-import Footer from "../component/Footer";
 import { useLoadAuthConfig } from "../hooks/useLoadAuthConfig";
 
-const Main = () => {
+const UserLayout = () => {
   useLoadAuthConfig();
   return (
-    <div className="main">
+    <div className="main user-layout">
       <Header />
       <div className="container mt-5">
         <Outlet />
       </div>
-      <Footer />
     </div>
   );
 };
 
-export default Main;
+export default UserLayout;

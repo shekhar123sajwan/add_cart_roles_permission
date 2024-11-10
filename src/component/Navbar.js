@@ -1,5 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
+import NavbarProfileIcons from "./NavbarProfileIcons";
 
 const Navbar = () => {
   return (
@@ -19,7 +20,7 @@ const Navbar = () => {
         <span className="navbar-toggler-icon" />
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav">
+        <ul className="navbar-nav ms-auto">
           <li className="nav-item active">
             <Link className="nav-link" to={"/"}>
               Home
@@ -35,37 +36,11 @@ const Navbar = () => {
               Products
             </Link>
           </li>
-          <li className="nav-item dropdown">
-            <Link
-              className="nav-link dropdown-toggle"
-              to={"/"}
-              id="navbarDropdownMenuLink"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Dropdown link
-            </Link>
-            <div
-              className="dropdown-menu"
-              aria-labelledby="navbarDropdownMenuLink"
-            >
-              <Link className="dropdown-item" to={"/"}>
-                Action
-              </Link>
-              <Link className="dropdown-item" to={"/"}>
-                Another action
-              </Link>
-              <Link className="dropdown-item" to={"/"}>
-                Something else here
-              </Link>
-            </div>
-          </li>
+          <NavbarProfileIcons />
         </ul>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

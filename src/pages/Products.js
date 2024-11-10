@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Product from "../component/Product";
 import Cart from "../component/Cart";
+import Loader from "../component/loader/Loader";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,9 @@ const Products = () => {
     fetchProducts();
   }, []);
 
+  if (products?.length === 0) {
+    return <Loader />;
+  }
   return (
     <div className="row">
       <div className="col-xs-12 col-md-12 col-lg-8 products-wrapper">
