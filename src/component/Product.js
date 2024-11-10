@@ -24,7 +24,9 @@ const Product = ({ product }) => {
               ? product.description?.slice(0, 50) + "..."
               : product.description}
           </p>
-          <p className="italic">${product.price}</p>
+          <p className="italic">
+            ${product.price} <b className="text-danger">{product.category}</b>
+          </p>
           <button
             className="btn btn-primary btn-sm"
             onClick={() => handleAddCart(product)}
