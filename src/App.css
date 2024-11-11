@@ -30,3 +30,23 @@
 .filter-wrapper {
   position: absolute;
 }
+
+.star-rating {
+  display: inline-block;
+  font-size: 2rem;
+  line-height: 1;
+  position: relative;
+  unicode-bidi: bidi-override;
+  color: #ccc; /* Unfilled star color */
+}
+
+/* Filled star color for the rating */
+.star-rating::before {
+  content: "★★★★★";
+  color: gold;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: var(--rating); /* Width based on rating percentage */
+}

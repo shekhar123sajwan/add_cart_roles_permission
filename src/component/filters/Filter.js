@@ -1,16 +1,26 @@
 import React, { useEffect } from "react";
 
-const Filter = ({ productsList, setProdcutsFilter, prodcutsFilter }) => {
+const Filter = ({
+  productsList,
+  setProdcutsFilter,
+  prodcutsFilter,
+  showFilterPanel,
+}) => {
   useEffect(() => {
     const myDiv = document.querySelector(".filter-wrapper");
     const offsetTop = myDiv.offsetTop;
 
     window.onscroll = () => {
+      console.log("working");
       if (window.scrollY > offsetTop) {
         myDiv.classList.add("fixed-top-filter");
       } else {
         myDiv.classList.remove("fixed-top-filter");
       }
+    };
+
+    return () => {
+      window.onscroll = null;
     };
   }, []);
 
@@ -19,7 +29,10 @@ const Filter = ({ productsList, setProdcutsFilter, prodcutsFilter }) => {
   ];
   const priceRange = [...new Set(productsList.map((product) => product.price))];
   return (
-    <div className="filter-wrapper">
+    <div
+      className="filter-wrapper"
+      style={{ display: !showFilterPanel && "none" }}
+    >
       <div className="mb-3">
         <h6>Category</h6>
         <ul className="list-unstyled">
@@ -59,9 +72,15 @@ const Filter = ({ productsList, setProdcutsFilter, prodcutsFilter }) => {
               name="rating"
               id="rating1"
               className="form-check-input"
+              onChange={(e) => {
+                setProdcutsFilter({
+                  ...prodcutsFilter,
+                  rating: e.target.checked ? 1 : null,
+                });
+              }}
             />
             <label htmlFor="rating1" className="form-check-label">
-              1 Star &amp; Up
+              1 Star
             </label>
           </li>
           <li>
@@ -70,9 +89,15 @@ const Filter = ({ productsList, setProdcutsFilter, prodcutsFilter }) => {
               name="rating"
               id="rating2"
               className="form-check-input"
+              onChange={(e) => {
+                setProdcutsFilter({
+                  ...prodcutsFilter,
+                  rating: e.target.checked ? 2 : null,
+                });
+              }}
             />
             <label htmlFor="rating2" className="form-check-label">
-              2 Stars &amp; Up
+              2 Stars
             </label>
           </li>
           <li>
@@ -81,9 +106,15 @@ const Filter = ({ productsList, setProdcutsFilter, prodcutsFilter }) => {
               name="rating"
               id="rating3"
               className="form-check-input"
+              onChange={(e) => {
+                setProdcutsFilter({
+                  ...prodcutsFilter,
+                  rating: e.target.checked ? 3 : null,
+                });
+              }}
             />
             <label htmlFor="rating3" className="form-check-label">
-              3 Stars &amp; Up
+              3 Stars
             </label>
           </li>
           <li>
@@ -92,9 +123,15 @@ const Filter = ({ productsList, setProdcutsFilter, prodcutsFilter }) => {
               name="rating"
               id="rating4"
               className="form-check-input"
+              onChange={(e) => {
+                setProdcutsFilter({
+                  ...prodcutsFilter,
+                  rating: e.target.checked ? 4 : null,
+                });
+              }}
             />
             <label htmlFor="rating4" className="form-check-label">
-              4 Stars &amp; Up
+              4 Stars
             </label>
           </li>
           <li>
@@ -103,6 +140,12 @@ const Filter = ({ productsList, setProdcutsFilter, prodcutsFilter }) => {
               name="rating"
               id="rating5"
               className="form-check-input"
+              onChange={(e) => {
+                setProdcutsFilter({
+                  ...prodcutsFilter,
+                  rating: e.target.checked ? 5 : null,
+                });
+              }}
             />
             <label htmlFor="rating5" className="form-check-label">
               5 Stars

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Product from "../component/Product";
 import Cart from "../component/Cart";
 import Pagination from "../component/Pagination";
@@ -15,7 +15,7 @@ const Products = () => {
   const { showFilterPanel } = configStore;
   const [prodcutsFilter, setProdcutsFilter] = useState({
     category: [],
-    rating: [],
+    rating: null,
     price: [],
   });
   let filterdProducts = [];
@@ -31,24 +31,36 @@ const Products = () => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchProducts();
   }, []);
 
   const handleCateoryProductsFilter = () => {
+    let newFIlterdProducts = null;
     if (prodcutsFilter?.category?.length > 0) {
-      return productsObj?.filter((product) => {
+      newFIlterdProducts = productsObj?.filter((product) => {
         if (prodcutsFilter?.category?.includes(product.category)) {
           return product;
         }
       });
-    } else {
-      return productsObj || null;
     }
+    if (prodcutsFilter?.rating !== null) {
+      let copyFilterdProducts = structuredClone(newFIlterdProducts);
+      if (prodcutsFilter?.category?.length <= 0) {
+        copyFilterdProducts = [...productsObj];
+      }
+      newFIlterdProducts = copyFilterdProducts?.filter((product) => {
+        if (product.rating >= prodcutsFilter?.rating) {
+          return product;
+        }
+      });
+    }
+    return newFIlterdProducts || productsObj || null;
   };
 
   useEffect(() => {
     const filterdProducts = handleCateoryProductsFilter();
+
     setProducts({
       ...products,
       products: filterdProducts,
@@ -66,7 +78,7 @@ const Products = () => {
     products?.products?.length > 0 &&
     products?.products.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  if (!filterdProducts?.length) return null;
+  // if (!filterdProducts?.length) return null;
   return (
     <div className="row">
       <div className="col-xs-12 col-lg-12">
@@ -75,13 +87,13 @@ const Products = () => {
       </div>
       <div className="col-xs-12 col-md-12 col-lg-8 products-wrapper">
         <div className="row">
-          {showFilterPanel && (
-            <Filter
-              productsList={productsObj}
-              setProdcutsFilter={setProdcutsFilter}
-              prodcutsFilter={prodcutsFilter}
-            />
-          )}
+          <Filter
+            productsList={productsObj}
+            setProdcutsFilter={setProdcutsFilter}
+            prodcutsFilter={prodcutsFilter}
+            showFilterPanel={showFilterPanel}
+          />
+
           <div className="offset-md-12 offset-lg-12 offset-xs-12">
             <button
               className="btn btn-primary btn-sm pull-right my-2"
@@ -90,14 +102,23 @@ const Products = () => {
               Filter
             </button>
           </div>
-          {filterdProducts?.map((product) => (
-            <Product key={product.id} product={product} />
-          ))}
-          <Pagination
-            setCurrentPage={setCurrentPage}
-            numberOfProductsOnPage={numberOfProductsOnPage}
-            totalProducts={total}
-          />
+          {(filterdProducts?.length === 0 || !filterdProducts) && (
+            <div className="text-center">
+              <h3>No Products Found</h3>
+            </div>
+          )}
+          {filterdProducts?.length > 0 &&
+            filterdProducts?.map((product) => (
+              <Product key={product.id} product={product} />
+            ))}
+
+          {filterdProducts?.length > 0 && (
+            <Pagination
+              setCurrentPage={setCurrentPage}
+              numberOfProductsOnPage={numberOfProductsOnPage}
+              totalProducts={total}
+            />
+          )}
         </div>
       </div>
       <div className="col-xs-12 col-md-12 col-lg-4">

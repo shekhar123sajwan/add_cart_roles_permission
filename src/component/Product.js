@@ -27,6 +27,13 @@ const Product = ({ product }) => {
           <p className="italic">
             ${product.price} <b className="text-danger">{product.category}</b>
           </p>
+          <p
+            className="star-rating"
+            style={{ "--rating": (product.rating * 100) / 5 + "%" }}
+          >
+            ★★★★★
+          </p>
+          <br />
           <button
             className="btn btn-primary btn-sm"
             onClick={() => handleAddCart(product)}
